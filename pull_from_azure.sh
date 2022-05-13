@@ -1,0 +1,1 @@
+rsync -azPvhe ssh --update finderr@52.168.169.82:/home/finderr/DeOldifyAPI/. .
