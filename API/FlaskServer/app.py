@@ -24,48 +24,48 @@ else:
 # Import folders
 from deoldify.visualize import *
 os.environ['TORCH_HOME'] = '.'
-torch.backends.cudnn.benchmark=True
+# torch.backends.cudnn.benchmark=True
 
 app = Flask(__name__)
 
-from werkzeug.middleware.proxy_fix import ProxyFix
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
-
-api = Api(
-    title='DeOldify API',
-    version='1.0',
-    doc=False
-    # doc='/apidoc/'             # Set URL path for swagger
-    # description='A description',
-    # All API metadatas
-)
+# from werkzeug.middleware.proxy_fix import ProxyFix
+# app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+api = Api(app, version='1.0', title='Colorfy API', description='Colorfy API')
+# api = Api(
+#     title='DeOldify API',
+#     version='1.0',
+#     doc=False
+#     # doc='/apidoc/'             # Set URL path for swagger
+#     # description='A description',
+#     # All API metadatas
+# )
 
 api.namespaces.clear()
 api.add_namespace(deoldify_api)
-api.init_app(app)
+# api.init_app(app)
 
 # Configure Celery
 # Configure through environment variables
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://172.17.0.2:6379/0')
-CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://172.17.0.2:6379/0')
+# CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://172.17.0.2:6379/0')
+# CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://172.17.0.2:6379/0')
 
-app.config['task_routes'] = {'tasks_archive.*': {'queue': 'archive'}}
-app.config['broker_url'] = CELERY_BROKER_URL
-app.config['result_backend'] = CELERY_RESULT_BACKEND
+# app.config['task_routes'] = {'tasks_archive.*': {'queue': 'archive'}}
+# app.config['broker_url'] = CELERY_BROKER_URL
+# app.config['result_backend'] = CELERY_RESULT_BACKEND
 
-celery = Celery(
-            app.name, 
-            broker=app.config['broker_url'], 
-            backend=app.config['result_backend'],
-            task_routes = app.config['task_routes'],
-        )
-celery.conf.update(app.config)
-celery.conf.update(
-    task_serializer='pickle',
-    event_serializer='pickle',
-    accept_content=['pickle','json'],
-    worker_pool = 'solo',
-)
+# celery = Celery(
+#             app.name, 
+#             broker=app.config['broker_url'], 
+#             backend=app.config['result_backend'],
+#             task_routes = app.config['task_routes'],
+#         )
+# celery.conf.update(app.config)
+# celery.conf.update(
+#     task_serializer='pickle',
+#     event_serializer='pickle',
+#     accept_content=['pickle','json'],
+#     worker_pool = 'solo',
+# )
 # celery.conf.update(accept_content='pickle')
 
 @app.route('/')
@@ -73,4 +73,6 @@ def hello():
     return {'placeholder': 'Welcome to the Colourize homepage'}
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=True)
+
+
