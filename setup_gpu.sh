@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # git clone
-git clone https://github.com/fl/DeOldifyAPI.git
+git clone https://github.com/ferdinandl007/ColorfyAPI-master.git
 
 bash DeOldifyAPI/Azure/install_docker.sh
 bash DeOldifyAPI/Azure/install_packages.sh
