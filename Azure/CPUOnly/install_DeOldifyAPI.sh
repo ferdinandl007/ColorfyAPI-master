@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git clone https://github.com/fl/DeOldifyAPI.git
+git clone https://github.com/ferdinandl007/ColorfyAPI-master.git
 
 cd DeOldifyAPI
 
